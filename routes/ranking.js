@@ -10,7 +10,10 @@ router.get('/', async (req, res, next) => {
             .select(`
                 minutos,
                 usuarios (
-                    turma
+                    turma_id,
+                    turmas (
+                        nome
+                    )
                 )
             `);
 
@@ -19,7 +22,9 @@ router.get('/', async (req, res, next) => {
         const ranking = {};
 
         data.forEach(item => {
-            const turma = item.usuarios.turma;
+            const turma = item.usuarios?.turmas?.nome;
+
+            if (!turma) return;
 
             if (!ranking[turma]) {
                 ranking[turma] = 0;
@@ -40,6 +45,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
+
 // CONTADOR GERAL
 router.get('/contador', async (req, res, next) => {
     try {
@@ -50,7 +56,7 @@ router.get('/contador', async (req, res, next) => {
         if (error) throw error;
 
         const total = data.reduce(
-            (soma, leitura) => soma + leitura.minutos,
+            (acc, item) => acc + item.minutos,
             0
         );
 
