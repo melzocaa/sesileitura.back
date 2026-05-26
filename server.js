@@ -27,7 +27,7 @@ const rotasLeitura = require('./routes/leitura');
 const rotasRanking = require('./routes/ranking');
 
 // Utilizando rotas
-app.use('/api/auth', rotasCadastro);
+app.use('/api/cadastro', rotasCadastro);
 app.use('/api/leituras', rotasLeitura);
 app.use('/api/ranking', rotasRanking);
 
